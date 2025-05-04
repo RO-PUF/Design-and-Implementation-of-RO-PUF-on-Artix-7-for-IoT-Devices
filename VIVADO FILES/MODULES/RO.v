@@ -8,8 +8,7 @@
 
 (* DONT_TOUCH = "true" *)  
 module RO ( 
-    input en, 
-    input [9:0] c,   
+    input en,    
     output o 
 ); 
 
@@ -29,7 +28,7 @@ module RO (
     always @(posedge en) begin
         if (en) begin
             forever begin
-                #((c + $random % 5) * 2) o = ~o; 
+                #(($random % 5) * 2) o = ~o; 
             end
         end
     end
@@ -48,7 +47,7 @@ endmodule
     wire out0, out1, out2, out3, out4, out5;
     
 // LUT-based ring oscillator logic
-    (* DONT_TOUCH = "true", BEL = "D6LUT" *)LUT6_L #(.INIT(64'h0000000000000001))AND (.LO(out0), .I0(en), .I1(out5), .I2(1'b0), .I3(1'b0), .I4(1'b0), .I5(1'b0));   
+    (* DONT_TOUCH = "true", BEL = "D6LUT" *)LUT6_L #(.INIT(64'h0000000000000001))NAND (.LO(out0), .I0(en), .I1(out5), .I2(1'b0), .I3(1'b0), .I4(1'b0), .I5(1'b0));   
     (* DONT_TOUCH = "true", BEL = "B6LUT" *)LUT6_L #(.INIT(64'h0000000000000066))XOR1 (.LO(out1), .I0(out0), .I1(en), .I2(1'b0), .I3(1'b0), .I4(1'b0), .I5(1'b0));
     (* DONT_TOUCH = "true", BEL = "A6LUT" *)LUT6_L #(.INIT(64'hFFFFFFFFFFFFFFFE))INV1 (.LO(out2), .I0(out1), .I1(1'b0), .I2(1'b0), .I3(1'b0), .I4(1'b0), .I5(1'b0)); 
     (* DONT_TOUCH = "true", BEL = "B6LUT" *)LUT6_L #(.INIT(64'h0000000000000066))XOR2 (.LO(out3), .I0(out2), .I1(en), .I2(1'b0), .I3(1'b0), .I4(1'b0), .I5(1'b0));
